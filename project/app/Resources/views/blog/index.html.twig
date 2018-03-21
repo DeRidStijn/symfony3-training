@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Blogposts list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Body</th>
+                <th>Publicationdate</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for blogpost in blogposts %}
+            <tr>
+                <td><a href="{{ path('blog_show', { 'id': blogpost.id }) }}">{{ blogpost.id }}</a></td>
+                <td>{{ blogpost.title }}</td>
+                <td>{{ blogpost.body }}</td>
+                <td>{% if blogpost.publicationDate %}{{ blogpost.publicationDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('blog_show', { 'id': blogpost.id }) }}">show</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
