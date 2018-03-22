@@ -22,6 +22,35 @@ class Commentpost
     private $id;
 
     /**
+     * @var Blogpost
+     * 
+     * @ORM\ManyToOne(targetEntity="BlogPost", inversedBy="comments")
+     * @ORM\JoinColumn(name="blogpost_id", referencedColumnName="id")
+     * 
+     */
+    private $blogpost;
+    /** 
+     * Set blogpost
+     * 
+     * @return Blogpost
+     */
+    public function setBlogpost($blogpost)
+    {
+        $this->blogpost = $blogpost;
+        return $this;
+    }
+
+    /**
+     * Get Blogpost
+     * 
+     * @return Blogpost
+     */
+    public function getBlogpost()
+    {
+        return $this->blogpost;
+    }
+
+    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)

@@ -13,7 +13,7 @@ class CommentpostType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('comment')->add('publicationDate');
+        $builder->add('name')->add('comment');
     }/**
      * {@inheritdoc}
      */
@@ -29,7 +29,7 @@ class CommentpostType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_blogpost';
+        return 'appbundle_commentpost';
     }
 
 }

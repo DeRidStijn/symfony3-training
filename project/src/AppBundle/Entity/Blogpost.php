@@ -21,6 +21,36 @@ class Blogpost
      */
     private $id;
 
+
+     /**
+      * @var Comments[]
+      *
+      * @ORM\OneToMany(targetEntity="Commentpost", mappedBy="blogpost")
+      */
+    private $comments;
+    /**
+     * Set Comments
+     * 
+     * @return Comments[]
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+        return $this;
+    }
+
+    /**
+     * Get Comments
+     *
+     * @return Comments[]
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    
+
     /**
      * @var string
      *

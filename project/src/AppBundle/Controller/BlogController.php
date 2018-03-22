@@ -34,49 +34,53 @@ class BlogController extends Controller
    
     /**
      * Finds and displays a blogpost entity.
-     * @Route("/{id}", name="blogpost_show")
+     * @Route("/{id}", name="blog_show")
      * @Method({"GET", "POST"})
      */
-    public function showAction(Blogpost $blogpost)
+    public function showAction(Blogpost $blogpost, Request $request)
     { // create the form here
-        $commentForm!->handleRequest($request);
-        if ($commentForm->isSubmitted() &&$commentForm->isValid()) {
-            $comment = $commentForm->getData();
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($comment); 
-            $entityManager->flush();
-            return $this->redirectToRoute('blogpost_show'); 
-        }
+
+        $comments = $blogpost->getComments();
+        
+        $comment = new Commentpost();
+        $comment->setBlogpost($blogpost);
+        $form = $this->createForm('AppBundle\Form\CommentpostType', $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+
+            return $this->render('blog/show.html.twig', array(
+                'blogpost' => $blogpost,
+                'comments' => $comments,
+                'form' => $form->createView(),
+            ));
+            }
+
+            return $this->render('blog/show.html.twig', array(
+                'blogpost' => $blogpost,
+                'comments' => $comments,
+                'form' => $form->createView(),
+            ));
     }
 
-    public function newcommentAction(request $request)
+
+    /*public function newcommentAction(request $request)
     {
         $comment = new Comment();
         $comment->setBlogpost($blogpost);
         $commentForm = $this->createFormBuilder($comment) 
             ->add('name', TextType::class)
             ->add('comment', TextareaType::class)
-            ->add('save', SubmitType!::class, array('label' =>'Submit comment')) 
+            ->add('save', SubmitType::class, array('label' =>'Submit comment')) 
             ->getForm(); 
         return $this->render('blogpost/show.html.twig', array( 
             'blogpost' => $blogpost,    
             'comments' => $comments,     
             'delete_form' => $deleteForm->createView(), 
             'comment_form' =>$commentForm->createView(), ));
-    }
+    }*/
 
-
-    /**
-     * Finds and displays a blogpost entity.
-     *
-     * @Route("/{id}", name="blog_show")
-     * @Method("GET")
-     */
-    public function showAction(Blogpost $blogpost)
-    {
-
-        return $this->render('blog/show.html.twig', array(
-            'blogposts' => $blogpost
-        ));
-    }
 }
