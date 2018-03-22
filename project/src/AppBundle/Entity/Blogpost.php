@@ -71,7 +71,10 @@ class Blogpost
      * @ORM\Column(name="publication_date", type="datetime")
      */
     private $publicationDate;
-
+    public function __construct()
+    {
+        $this->publicationDate = new \DateTime('now');
+    }
 
     /**
      * Get id
