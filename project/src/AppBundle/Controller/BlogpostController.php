@@ -33,20 +33,6 @@ class BlogpostController extends Controller
     }
 
     /**
-     * Finds and displays a blogpost entity.
-     *
-     * @Route("/{id}", name="blogpost_show")
-     * @Method("GET")
-     */
-    public function showAction(Blogpost $blogpost)
-    {
-
-        return $this->render('blogpost/show.html.twig', array(
-            'blogpost' => $blogpost
-        ));
-    }
-
-    /**
      * Creates a new blogpost entity.
      *
      * @Route("/new", name="blogpost_new")
@@ -69,6 +55,20 @@ class BlogpostController extends Controller
         return $this->render('blogpost/new.html.twig', array(
             'blogpost' => $blogpost,
             'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * Finds and displays a blogpost entity.
+     *
+     * @Route("/{id}", name="blogpost_show")
+     * @Method("GET")
+     */
+    public function showAction(Blogpost $blogpost)
+    {
+
+        return $this->render('blogpost/show.html.twig', array(
+            'blogpost' => $blogpost
         ));
     }
 
@@ -132,4 +132,5 @@ class BlogpostController extends Controller
             ->getForm()
         ;
     }
+
 }

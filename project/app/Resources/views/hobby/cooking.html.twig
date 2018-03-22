@@ -4,5 +4,6 @@
 {% block stylesheets %}{% endblock %}
 {% block body %}
 <p> {% include 'kijkmama.html.twig' only %} cooking! </p>
+{{ render(controller('AppBundle:Blog:recentposts')) }}
 {% endblock %}
 {% block javascripts %}{% endblock %}

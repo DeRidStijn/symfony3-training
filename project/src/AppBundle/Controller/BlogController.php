@@ -66,21 +66,11 @@ class BlogController extends Controller
             ));
     }
 
-
-    /*public function newcommentAction(request $request)
-    {
-        $comment = new Comment();
-        $comment->setBlogpost($blogpost);
-        $commentForm = $this->createFormBuilder($comment) 
-            ->add('name', TextType::class)
-            ->add('comment', TextareaType::class)
-            ->add('save', SubmitType::class, array('label' =>'Submit comment')) 
-            ->getForm(); 
-        return $this->render('blogpost/show.html.twig', array( 
-            'blogpost' => $blogpost,    
-            'comments' => $comments,     
-            'delete_form' => $deleteForm->createView(), 
-            'comment_form' =>$commentForm->createView(), ));
-    }*/
+    public function recentpostsAction() 
+    { 
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Blogpost');
+        $blogposts = $repository->findBy([], [], 5, 0);
+        return $this->render('blog/recentposts.html.twig', ['blogposts'=>$blogposts]);
+    }
 
 }
