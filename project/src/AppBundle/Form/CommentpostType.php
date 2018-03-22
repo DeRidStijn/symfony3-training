@@ -13,7 +13,7 @@ class CommentpostType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('comment');
+        $builder->add('name')->add('comment')->add('commentDate');
     }/**
      * {@inheritdoc}
      */

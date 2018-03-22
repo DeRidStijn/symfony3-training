@@ -25,10 +25,11 @@ class Commentpost
      * @var Blogpost
      * 
      * @ORM\ManyToOne(targetEntity="BlogPost", inversedBy="comments")
-     * @ORM\JoinColumn(name="blogpost_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="blogpost_id", referencedColumnName="id", onDelete="CASCADE")
      * 
      */
     private $blogpost;
+
     /** 
      * Set blogpost
      * 
@@ -64,7 +65,34 @@ class Commentpost
      */
     private $comment;
 
+    /**
+     * @var \DateTime
+     * 
+     * @ORM\Column(name="comment_date", type="datetime" )
+     */
+    private $commentDate;
 
+    public function __construct()
+    {   
+        $this->commentDate = new \DateTime('now');
+    }
+    /**
+     * Get commentDate
+     */
+    public function getCommentDate()
+    {
+        return $this->commentDate;
+    }
+    /**
+     * Set commentDate
+     * @param \DateTime $commentDate
+     * @return Commentpost
+     */
+    public function setCommentDate($commentDate)
+    {
+        $this->commentDate = $commentDate;
+        return $this;
+    }
     /**
      * Get id
      *

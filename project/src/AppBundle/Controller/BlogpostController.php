@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Service\BlogpostService;
+use AppBundle\Service\CommentpostService;
 use AppBundle\Entity\Blogpost;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -14,6 +16,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
  */
 class BlogpostController extends Controller
 {
+    private $blogpostService;
+
+    public function __construct(BlogpostService $blogpostService)
+    {
+        $this->blogpostService = $blogpostService;
+    }
 
     /**
      * Lists all blogpost entities.
@@ -23,10 +31,10 @@ class BlogpostController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        /*$em = $this->getDoctrine()->getManager();
 
-        $blogposts = $em->getRepository('AppBundle:Blogpost')->findAll();
-
+        $blogposts = $em->getRepository('AppBundle:Blogpost')->findAll();*/
+        $blogposts = $this->blogpostService->fetchAllPosts();
         return $this->render('blogpost/index.html.twig', array(
             'blogposts' => $blogposts,
         ));
@@ -45,9 +53,10 @@ class BlogpostController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $this->blogpostService->persist($blogpost);
+            /*$em = $this->getDoctrine()->getManager();
             $em->persist($blogpost);
-            $em->flush();
+            $em->flush();*/
 
             return $this->redirectToRoute('blogpost_show', array('id' => $blogpost->getId()));
         }
@@ -66,9 +75,10 @@ class BlogpostController extends Controller
      */
     public function showAction(Blogpost $blogpost)
     {
-
+        $deleteForm = $this->createDeleteForm($blogpost);
         return $this->render('blogpost/show.html.twig', array(
-            'blogpost' => $blogpost
+            'blogpost' => $blogpost,
+            'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -85,7 +95,8 @@ class BlogpostController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->blogpostService->flush();
+            //$this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('blogpost_edit', array('id' => $blogpost->getId()));
         }
