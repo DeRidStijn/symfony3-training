@@ -8,9 +8,7 @@ security:
             entity:
                 class: AppBundle:User
                 property: username
-    access_control:
-        - { path ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path ^/blogpost, roles: ROLE_ADMIN }
+
     encoders:
         AppBundle\Entity\User:
             algorithm: bcrypt
@@ -34,3 +32,8 @@ security:
             logout:
                 path: /logout
                 target: /
+            provider: db_provider
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/blogpost, roles: ROLE_ADMIN }
