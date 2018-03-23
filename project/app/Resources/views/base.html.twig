@@ -12,9 +12,12 @@
                     <a href= {{path('hobby_page', {'hobby': 'whisky'})}} >Whisky</a>
                     <a href= {{path('hobby_page', {'hobby': 'cooking'})}} >Cooking</a>
                 </div>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a href= "{{path('logout')}}" > logout</a>
+            {% endif %}
         {% endblock %}
         {% block body %}
-            
+
         {% endblock %}
         
         {% block javascripts %}
